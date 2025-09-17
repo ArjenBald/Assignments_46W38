@@ -1,12 +1,46 @@
-1. 21.5
-2. 4
-3. 64
-4. 4
-5. 64
-6. 10.88
-7. 0.314
-8. true
-9. true
-10. true 
-11. false
-12. true
+Predictions vs. Actual Outputs
+
+Prediction: 21.5
+Actual: 21.5
+
+Prediction: 4
+Actual: 4
+
+Prediction: 64
+Actual: 64
+
+Prediction: 4
+Actual: 4
+
+Prediction: 64
+Actual: 64
+
+Prediction: 10.88
+Actual: 17
+Error: Operator precedence – exponentiation is done first (4**3 = 64), then 17 % 64 = 17.
+
+Prediction: 0.314
+Actual: 1
+Error: First 17 % 4 = 1, then 1**3 = 1.
+
+Prediction: true
+Actual: True
+Error: Boolean values in Python are written with capital letters (True/False).
+
+Prediction: true
+Actual: False
+Error: Membership test checks only the top level of the list. The number 4 is inside [3, 4], not at the top level.
+
+Prediction: true
+Actual: True
+
+Prediction: false
+Actual: False
+Error: Boolean values in Python are written with capital letters.
+
+Prediction: true
+Actual: True
+Error: Boolean values in Python are written with capital letters.
+
+Reflection:
+The mistakes were caused by misunderstanding operator precedence and not realizing that "in" checks only the top-level elements in a list. Also, booleans in Python must be written as True and False with capital letters.
