@@ -50,3 +50,8 @@ def power_output_vec(
         np.where(v >= v_rated, prated, g * prated) # Region 3 else Region 2
     )
     return p
+
+if __name__ == "__main__":
+    speeds = np.array([0.0, 2.9, 3.0, 5.0, 8.0, 11.0, 15.0, 24.9, 25.0, 30.0])
+    print("Linear:", power_output_vec(speeds, interpolation="linear"))
+    print("Cubic :", power_output_vec(speeds, interpolation="cubic"))
