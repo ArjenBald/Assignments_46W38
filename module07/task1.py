@@ -46,6 +46,7 @@ plt.title('Fast Fourier Transform (FFT) Spectrum')
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('Amplitude')
 plt.grid(True)
+plt.savefig('fft_spectrum.png')
 plt.show()
 
 
@@ -59,7 +60,7 @@ plt.title('Power Spectral Density (PSD) using Welch\'s Method')
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('PSD (m²/s²/Hz)')
 plt.grid(True)
-plt.savefig('fft_spectrum.png')
+plt.savefig('psd_welch.png')
 plt.show()
 
 # --- Part 3: Apply a Low-Pass Filter ---
