@@ -50,19 +50,6 @@ plt.savefig('fft_spectrum.png')
 plt.show()
 
 
-# Calculate PSD using Welch's method
-frequencies, psd = welch(wind_speed, fs=sampling_frequency, nperseg=1024)
-
-# Plot the PSD
-plt.figure(figsize=(14, 7))
-plt.semilogy(frequencies, psd)
-plt.title('Power Spectral Density (PSD) using Welch\'s Method')
-plt.xlabel('Frequency (Hz)')
-plt.ylabel('PSD (m²/s²/Hz)')
-plt.grid(True)
-plt.savefig('psd_welch.png')
-plt.show()
-
 # --- Part 3: Apply a Low-Pass Filter ---
 
 from scipy.signal import butter, filtfilt
