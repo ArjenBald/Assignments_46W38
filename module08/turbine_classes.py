@@ -60,7 +60,41 @@ class WindTurbine(GeneralWindTurbine):
     power curve data for power calculation via interpolation.
     """
     # write the class here:
-    pass
+    def __init__(self, rotor_diameter, hub_height, rated_power, 
+                 v_in, v_rated, v_out, power_curve_data, name=None):
+        """
+        Initializes the WindTurbine object.
+
+        Parameters:
+        (Inherited params): ...
+        power_curve_data (np.ndarray): n-by-2 numpy array.
+                                       Column 0: wind speed [m/s]
+                                       Column 1: power [kW]
+        name (str, optional): Name of the turbine. Defaults to None.
+        """
+        # Initialize parent class attributes
+        super().__init__(rotor_diameter, hub_height, rated_power, 
+                         v_in, v_rated, v_out, name=name)
+        
+        # Add the new attribute
+        self.power_curve_data = power_curve_data
+
+    def get_power(self, v):
+        """
+        Overrides the get_power method.
+        
+        Calculates the power output P (kW) for a given 
+        wind speed v (m/s) using interpolation on the
+        power_curve_data.
+        """
+        # Extract wind speed (1st col) and power (2nd col)
+        ws_data = self.power_curve_data[:, 0]
+        p_data = self.power_curve_data[:, 1]
+        
+        # Use numpy.interp to find the power at wind speed v
+        power = np.interp(v, ws_data, p_data)
+        
+        return power
 
 if __name__ == '__main__':
     #
