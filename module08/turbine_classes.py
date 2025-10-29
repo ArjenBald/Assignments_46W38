@@ -33,25 +33,28 @@ class GeneralWindTurbine(object):
         self.v_out = v_out
         self.name = name
 
+    # --- Task 1.5: VECORIZED FUNCTION ---
     def get_power(self, v):
         """
         Calculates the power output P (kW) for a given 
-        wind speed v (m/s) using the following rules:
+        wind speed v (m/s).
         
-        - if v < v_in or v >= v_out, P = 0
-        - if v_in <= v < v_rated, P = rated_power * (v / v_rated)**3
-        - if v_rated <= v < v_out, P = rated_power
+        This function is vectorized and accepts numpy arrays.
         """
+        # Ensure v is a numpy array for calculations
+        v = np.asarray(v)
         
-        if v < self.v_in or v >= self.v_out:
-            # Rule 1
-            power = 0.0
-        elif self.v_in <= v < self.v_rated:
-            # Rule 2
-            power = self.rated_power * (v / self.v_rated)**3
-        elif self.v_rated <= v < self.v_out:
-            # Rule 3
-            power = self.rated_power
+        # Initialize power output array with zeros (Rule 1)
+        power = np.zeros_like(v, dtype=float)
+        
+        # Rule 2: v_in <= v < v_rated
+        # Create a boolean mask for this condition
+        mask_rule2 = (v >= self.v_in) & (v < self.v_rated)
+        power[mask_rule2] = self.rated_power * (v[mask_rule2] / self.v_rated)**3
+        
+        # Rule 3: v_rated <= v < v_out
+        mask_rule3 = (v >= self.v_rated) & (v < self.v_out)
+        power[mask_rule3] = self.rated_power
             
         return power
 
@@ -81,19 +84,20 @@ class WindTurbine(GeneralWindTurbine):
         # Add the new attribute
         self.power_curve_data = power_curve_data
 
+    # --- Task 1.5: VECORIZED FUNCTION ---
     def get_power(self, v):
         """
         Overrides the get_power method.
         
-        Calculates the power output P (kW) for a given 
-        wind speed v (m/s) using interpolation on the
-        power_curve_data.
+        Calculates power output using interpolation.
+        This function is already vectorized, as numpy.interp
+        handles array inputs for 'v'.
         """
         # Extract wind speed (1st col) and power (2nd col)
         ws_data = self.power_curve_data[:, 0]
         p_data = self.power_curve_data[:, 1]
         
-        # Use numpy.interp to find the power at wind speed v
+        # numpy.interp is innately vectorized
         power = np.interp(v, ws_data, p_data)
         
         return power
@@ -138,13 +142,11 @@ if __name__ == '__main__':
     # Create a range of wind speeds for plotting
     v_range = np.linspace(0, 30, 300) # 0 to 30 m/s
 
-    # Calculate power for each turbine (looping is required for now)
-    power_gen = []
-    power_real = []
-    
-    for v in v_range:
-        power_gen.append(turbine_gen.get_power(v))
-        power_real.append(turbine_real.get_power(v))
+    # --- Task 1.5: Use vectorized functions ---
+    # The 'for' loop is no longer needed
+    power_gen = turbine_gen.get_power(v_range)
+    power_real = turbine_real.get_power(v_range)
+    # --- End of vectorized call ---
 
     # Plot the results
     plt.figure(figsize=(10, 6))
